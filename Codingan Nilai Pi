@@ -1,0 +1,38 @@
+import numpy as np
+import time
+
+# Nilai referensi pi
+pi_ref = 3.14159265358979323846
+
+# Fungsi yang akan diintegrasikan
+def f(x):
+    return np.sqrt(1 - x**2)
+
+# Metode Riemann untuk integrasi
+def riemann_integral(N):
+    dx = 1.0 / N
+    x = np.linspace(0, 1, N, endpoint=False)
+    return np.sum(f(x)) * dx
+
+# Variasi nilai N
+N_values = [10, 100, 1000, 10000]
+
+# Array untuk menyimpan hasil
+results = []
+
+# Loop untuk setiap nilai N
+for N in N_values:
+    start_time = time.time()
+    integral_approx = 4 * riemann_integral(N)
+    execution_time = time.time() - start_time
+    rms_error = np.sqrt((integral_approx - pi_ref)**2)
+    results.append((N, integral_approx, rms_error, execution_time))
+
+# Menampilkan hasil
+for result in results:
+    N, integral_approx, rms_error, execution_time = result
+    print(f"N = {N}")
+    print(f"Approximation of π: {integral_approx}")
+    print(f"RMS Error: {rms_error}")
+    print(f"Execution Time: {execution_time} seconds")
+    print()
